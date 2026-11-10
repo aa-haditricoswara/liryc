@@ -16,7 +16,7 @@ html, body {
   height: 100%;
   overflow: hidden;
   background: transparent;
-  font-family: Arial, sans-serif;
+  font-family: "Segoe Script", cursive;
 }
 
 .lyrics-panel {
@@ -25,16 +25,20 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
   padding: 18px 30px;
 }
 
 .current {
+  width: 100%;
   color: #FFFF00;
+  font-family: "Segoe Script", cursive;
   font-size: 34px;
-  font-weight: 800;
-  line-height: 1.3;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: left;
+  text-transform: lowercase;
   text-shadow:
     0 2px 3px #000,
     0 0 8px rgba(255, 190, 70, .8),
@@ -43,11 +47,15 @@ html, body {
 }
 
 .next {
+  width: 100%;
   margin-top: 12px;
-  color: rgba(255, 255, 255, .75);
+  color: rgba(255,255,255,.75);
+  font-family: "Segoe Script", cursive;
   font-size: 21px;
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.5;
+  text-align: left;
+  text-transform: lowercase;
   text-shadow: 0 2px 4px #000;
   transition: opacity .25s ease;
 }
@@ -60,6 +68,7 @@ html, body {
 </head>
 
 <body>
+
 <div class="lyrics-panel">
   <div id="current" class="current"></div>
   <div id="next" class="next"></div>
@@ -73,9 +82,10 @@ let lastText = "";
 
 async function updateLyrics() {
   try {
-    const response = await fetch("/lyrics?t=" + Date.now(), {
-      cache: "no-store"
-    });
+    const response = await fetch(
+      "http://127.0.0.1:8767/lyrics?t=" + Date.now(),
+      { cache: "no-store" }
+    );
 
     if (!response.ok) return;
 
@@ -90,13 +100,14 @@ async function updateLyrics() {
       nextEl.classList.add("hidden");
 
       setTimeout(() => {
-        currentEl.textContent = data.text;
-        nextEl.textContent = data.nextText || "";
+        currentEl.textContent = data.text.toLowerCase();
+        nextEl.textContent = (data.nextText || "").toLowerCase();
 
         currentEl.classList.remove("hidden");
         nextEl.classList.remove("hidden");
       }, 180);
     }
+
   } catch (error) {
     console.log("Menunggu data lirik...");
   }
@@ -105,5 +116,6 @@ async function updateLyrics() {
 updateLyrics();
 setInterval(updateLyrics, 250);
 </script>
+
 </body>
 </html>
