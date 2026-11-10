@@ -37,7 +37,7 @@ html, body {
   line-height: 1.3;
   text-shadow:
     0 2px 3px #000,
-    0 0 8px rgba(255, 255, 0, .9),
+    0 0 8px rgba(255, 190, 70, .8),
     2px 3px 5px #000;
   transition: opacity .25s ease, transform .25s ease;
 }
@@ -60,7 +60,6 @@ html, body {
 </head>
 
 <body>
-
 <div class="lyrics-panel">
   <div id="current" class="current"></div>
   <div id="next" class="next"></div>
@@ -97,10 +96,7 @@ async function updateLyrics() {
         currentEl.classList.remove("hidden");
         nextEl.classList.remove("hidden");
       }, 180);
-    } else if (nextEl.textContent !== (data.nextText || "")) {
-      nextEl.textContent = data.nextText || "";
     }
-
   } catch (error) {
     console.log("Menunggu data lirik...");
   }
@@ -109,6 +105,5 @@ async function updateLyrics() {
 updateLyrics();
 setInterval(updateLyrics, 250);
 </script>
-
 </body>
 </html>
